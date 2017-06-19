@@ -26,6 +26,15 @@ public class FieldObject : MonoBehaviour
         countText.gameObject.SetActive(false);
     }
 
+    public void Reset()
+    {
+        count = 0;
+        countText.gameObject.SetActive(false);
+        this.isBomb = false;
+        background.color = Color.white;
+        countText.gameObject.SetActive(false);
+    }
+
     public void AddCount()
     {
         if (isBomb)

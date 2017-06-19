@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
+using Utils;
+using DG.Tweening;
 
 public class GameScene : MonoBehaviour
 {
@@ -19,9 +21,30 @@ public class GameScene : MonoBehaviour
     [SerializeField]
     private GameObject basePrefab;
     [SerializeField]
+    private GameObject openParticlePrefab;
+
+	/// <summary>
+	///  Game Data
+	/// </summary>
+    [SerializeField]
     private int flagCount = 10;
     [SerializeField]
     private long timeLeft = 60 * 2; // 2 mins
+    [SerializeField]
+    private bool gameOver = false;
+
+	/// <summary>
+	/// Player Object
+	/// FIXME : get from data
+	/// </summary>
+	private PlayerObject playerObject = new PlayerObject();
+
+	[SerializeField]
+	private Text flagCountLabel;
+	[SerializeField]
+	private Text timer;
+	[SerializeField]
+	private Image hpGauge;
 
     private CoverObject[,] coverList = new CoverObject[9,9];
     private FieldObject[,] fieldList = new FieldObject[9,9];
@@ -103,29 +126,87 @@ public class GameScene : MonoBehaviour
                 fieldList[x + side.Item1, y + side.Item2].AddCount();
             }
         }
+
+		StartTimer ();
+	}
+
+	private void StartTimer()
+	{
+		timer.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(timeLeft/60.0f), Mathf.FloorToInt(timeLeft%60.0f));
+
+		System.IDisposable idis = null;
+		idis = Observable.Interval (System.TimeSpan.FromSeconds (1))
+			.Select (_ => timeLeft)
+            .Where (t => t > 0 && !gameOver)
+			.Subscribe (t => {
+				timeLeft--;
+				timer.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(t/60.0f), Mathf.FloorToInt(t%60));
+
+				if(timeLeft <= 0)
+				{
+					idis.Dispose();
+					idis = null;
+					Debug.Log("Done");
+					timer.text = "Time up";
+					GameOver();
+				}
+			}).AddTo(this);
+	}
+
+	private void GameOver()
+	{
+        gameOver = true;
+        ModalObject.Popup("GameOverPopup", "", "", "");
+	}
+
+	private void UpdateHP()
+	{
+		var max = (float)playerObject.maxHealth;
+		var cur = (float)playerObject.currentHealth;
+		float rate = cur/max;
+
+        hpGauge.DOFillAmount(rate, 0.3f);
+	}
+
+	private void UpdateFlagCount()
+	{
+		flagCountLabel.text = string.Format ("{0}", flagCount);
 	}
 
     private void OnClick(bool longHold, CoverObject c)
     {
-        if (!c.isActive)
+        if (!c.isActive || gameOver)
             return;
 
         Debug.Log(longHold);
-        if(longHold)
+        if (longHold)
         {
-            c.SetFlag();
+            // trying to set but no more flag
+            if (flagCount <= 0 && !c.GetFlag())
+                return;
+			
+            if (c.SetFlag())
+            {
+                --flagCount;
+            }
+            else
+            {
+                ++flagCount;
+            }
+
+            UpdateFlagCount();
         }
-        else
+        else if (!c.GetFlag())
         {
             if (c.isFlagged)
                 return;
             
-            c.SetOpen();
+            c.SetOpen(openParticlePrefab);
 
             var val = fieldList[c.pos.x, c.pos.y].Data;
 
             if (!val.Item1 &&
-               val.Item2 == 0)
+                val.Item2 == 0)
             {
                 for (int i = 0; i < 8; ++i)
                 {
@@ -139,6 +220,17 @@ public class GameScene : MonoBehaviour
                         {
                             OnClick(false, coverList[c.pos.x + side.Item1, c.pos.y + side.Item2]);
                         });
+                }
+            }
+            else if (val.Item1)
+            {
+                // bomb
+                --playerObject.currentHealth;
+                UpdateHP();
+
+                if (playerObject.currentHealth <= 0)
+                {
+                    GameOver();
                 }
             }
         }

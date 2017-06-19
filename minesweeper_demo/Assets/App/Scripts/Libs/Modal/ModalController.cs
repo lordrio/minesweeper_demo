@@ -20,7 +20,7 @@ public class ModalController : SingletonMonoBehaviour<ModalController>
 
     private Color blockingCanvasColor = new Color(0, 0, 0, 0.5f);
     private const float BlurAmount = 1.5f;
-    private Vector2 referenceResolution = new Vector2(1600, 800);
+    private Vector2 referenceResolution = new Vector2(800, 600);
     private Canvas canvas;
     private RectTransform blockingCanvas = null;
     private Dictionary<string, RectTransform> prefabCache = new Dictionary<string, RectTransform>();

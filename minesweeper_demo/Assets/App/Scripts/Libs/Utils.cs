@@ -26,4 +26,14 @@ public static class RioUtils
 
         return component;
     }
+
+    public static RectTransform RectTrans(this GameObject gameObject)
+    {
+        return gameObject.transform as RectTransform;
+    }
+
+    public static RectTransform RectTrans(this Transform gameObject)
+    {
+        return gameObject as RectTransform;
+    }
 }

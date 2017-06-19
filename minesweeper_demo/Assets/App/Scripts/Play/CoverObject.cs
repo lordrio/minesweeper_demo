@@ -23,6 +23,8 @@ public class CoverObject : MonoBehaviour
     public bool isFlagged{ get; set; }
     [SerializeField]
     private Image background;
+	[SerializeField]
+	private Image bombFlag;
 
     private void Awake()
     {
@@ -30,13 +32,35 @@ public class CoverObject : MonoBehaviour
         isFlagged = false;
     }
 
-    public void SetOpen()
+    public void SetOpen(GameObject particlePrefab)
     {
         isActive = false;
-        background.enabled = false;
+        var part = Instantiate(particlePrefab) as GameObject;
+        part.RectTrans().SetParent(background.transform);
+        part.RectTrans().anchoredPosition = Vector2.zero;
+
+        Observable.Timer(System.TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ =>
+            {
+                    background.enabled = false;
+
+                    Observable.Timer(System.TimeSpan.FromSeconds(2f))
+                        .Subscribe(_2 =>
+                            {
+                                DestroyObject(part);
+                            });
+            });
     }
 
-    public void SetFlag()
+	public bool GetFlag()
+	{
+		return bombFlag.gameObject.activeSelf;
+	}
+
+	public bool SetFlag()
     {
+		bombFlag.gameObject.SetActive (!bombFlag.gameObject.activeSelf);
+
+		return GetFlag ();
     }
 }
