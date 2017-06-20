@@ -70,9 +70,14 @@ public class CreateScene : MonoBehaviour
                                     var name = component["namefield"].FetchComponent<InputField>();
                                     var time = component["timefield"].FetchComponent<InputField>();
 
+                                    var mod = ModalObject.Popup("LoadingPopup", "", "", "");
                                     ApiManager.SaveMine(name.text,
                                         data,
-                                        time.text.Length == 0 ? 200 : int.Parse(time.text));
+                                        time.text.Length == 0 ? 200 : int.Parse(time.text)
+                                        , () =>
+                                        {
+                                            mod.DismissPopup();
+                                        });
                                 });
                     }
                     else
@@ -180,5 +185,10 @@ public class CreateScene : MonoBehaviour
                 fieldList[x + side.Item1, y + side.Item2].AddCount();
             }
         }
+    }
+
+    public void ReturnToMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Config.MenuScene);
     }
 }

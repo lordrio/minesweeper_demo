@@ -6,9 +6,13 @@ using UniRx;
 using UniRx.Triggers;
 using Utils;
 using DG.Tweening;
+using System.Linq;
 
 public class GameScene : MonoBehaviour
 {
+    // temp solution
+    public static Data.MineData data;
+
     // 9 x 9
     private Dictionary<Tuple<int,int>, bool> bombMap = new Dictionary<Tuple<int, int>, bool>(10);
 
@@ -66,20 +70,37 @@ public class GameScene : MonoBehaviour
 	void Start ()
     {
 	    // fill in
-        for (int i = 0; i < 10; ++i)
+//        for (int i = 0; i < 10; ++i)
+//        {
+//            while (true)
+//            {
+//                var randX = Random.Range(0, 9);
+//                var randY = Random.Range(0, 9);
+//                var key = Tuple.Create(randX, randY);
+//
+//                if (bombMap.ContainsKey(key))
+//                    continue;
+//
+//                bombMap[key] = true;
+//                break;
+//            }
+//        }
+
+        timeLeft = data.solve_time;
+        var d = data.data.Split(new char[] { ',' });
+
+        foreach (var i in d)
         {
-            while (true)
-            {
-                var randX = Random.Range(0, 9);
-                var randY = Random.Range(0, 9);
-                var key = Tuple.Create(randX, randY);
+            if (i.Length == 0 || !i.Contains(":"))
+                continue;
+            
+            var s = i.Split(new char[] { ':' });
+            var key = Tuple.Create(int.Parse(s[0]), int.Parse(s[1]));
 
-                if (bombMap.ContainsKey(key))
-                    continue;
+            if (bombMap.ContainsKey(key))
+                continue;
 
-                bombMap[key] = true;
-                break;
-            }
+            bombMap[key] = true;
         }
 
         // done setup
@@ -156,7 +177,11 @@ public class GameScene : MonoBehaviour
 	private void GameOver()
 	{
         gameOver = true;
-        ModalObject.Popup("GameOverPopup", "", "", "");
+        ModalObject.Popup("GameOverPopup", "", "", "")
+            .OnSuccess(_ =>
+            {
+                    ReturnToMenu();
+            });
 	}
 
 	private void UpdateHP()
@@ -234,5 +259,10 @@ public class GameScene : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ReturnToMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Config.MenuScene);
     }
 }

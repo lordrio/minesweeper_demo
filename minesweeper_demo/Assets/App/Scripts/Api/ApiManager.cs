@@ -3,7 +3,7 @@ using UniRx;
 
 public static class ApiManager
 {
-    public static void SaveMine(string name, string data, int solvetime)
+    public static void SaveMine(string name, string data, int solvetime, System.Action callback)
     {
         ScheduledNotifier<float> progress = new ScheduledNotifier<float>();
         var watcher = progress.Subscribe(prog => Debug.Log(prog));//進行度の表示
@@ -12,10 +12,15 @@ public static class ApiManager
         form.AddField("created_by", name);
         form.AddField("data", data);
         form.AddField("solve_time", solvetime);
-        ObservableWWW.Post("https://minesweeper-testapi-lordrio.c9users.io/insertmine.php", form, progress)
+        ObservableWWW.Post("http://moonlightcube.com/insertmine.php", form, progress)
             .Subscribe(result =>
             {
                     Debug.Log(result);
+
+                    if(callback != null)
+                    {
+                        callback();
+                    }
 
                     watcher.Dispose();
                     watcher = null;
@@ -27,7 +32,7 @@ public static class ApiManager
         ScheduledNotifier<float> progress = new ScheduledNotifier<float>();
         var watcher = progress.Subscribe(prog => Debug.Log(prog));//進行度の表示
 
-        ObservableWWW.Get("https://minesweeper-testapi-lordrio.c9users.io/getmine.php", null, progress)
+        ObservableWWW.Get("http://moonlightcube.com/getmine.php", null, progress)
             .Subscribe(result =>
             {
                     Debug.Log(result);
