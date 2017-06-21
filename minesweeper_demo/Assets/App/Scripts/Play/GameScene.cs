@@ -26,6 +26,8 @@ public class GameScene : MonoBehaviour
     private GameObject basePrefab;
     [SerializeField]
     private GameObject openParticlePrefab;
+    [SerializeField]
+    private GameObject bombParticlePrefab;
 
 	/// <summary>
 	///  Game Data
@@ -252,6 +254,7 @@ public class GameScene : MonoBehaviour
                 // bomb
                 --playerObject.currentHealth;
                 UpdateHP();
+                c.SetExplosion(bombParticlePrefab);
 
                 if (playerObject.currentHealth <= 0)
                 {

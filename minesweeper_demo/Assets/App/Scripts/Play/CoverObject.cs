@@ -42,14 +42,27 @@ public class CoverObject : MonoBehaviour
         Observable.Timer(System.TimeSpan.FromSeconds(0.5f))
             .Subscribe(_ =>
             {
-                    background.enabled = false;
+                background.enabled = false;
 
-                    Observable.Timer(System.TimeSpan.FromSeconds(2f))
+                Observable.Timer(System.TimeSpan.FromSeconds(2f))
                         .Subscribe(_2 =>
-                            {
-                                DestroyObject(part);
-                            });
-            });
+                    {
+                        DestroyObject(part);
+                    });
+            }).AddTo(this);
+    }
+
+    public void SetExplosion(GameObject explodePrefab)
+    {
+        var part = Instantiate(explodePrefab) as GameObject;
+        part.RectTrans().SetParent(background.transform);
+        part.RectTrans().anchoredPosition = Vector2.zero;
+
+        Observable.Timer(System.TimeSpan.FromSeconds(2.0f))
+            .Subscribe(_ =>
+            {
+                    DestroyObject(part);
+            }).AddTo(this);
     }
 
 	public bool GetFlag()

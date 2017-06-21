@@ -5,6 +5,8 @@ Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembl
 EndProject
 Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembly-CSharp.csproj", "{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}"
 EndProject
+Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembly-UnityScript.unityproj", "{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
