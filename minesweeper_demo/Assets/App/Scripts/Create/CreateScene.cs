@@ -9,7 +9,7 @@ using System.Linq;
 public class CreateScene : MonoBehaviour
 {
     // 9 x 9
-    private Dictionary<Tuple<int,int>, bool> bombMap = new Dictionary<Tuple<int, int>, bool>(10);
+    private Dictionary<Tuple<int,int>, int> bombMap = new Dictionary<Tuple<int, int>, int>(10);
 
     [SerializeField]
     private Transform lowerBase;
@@ -57,9 +57,9 @@ public class CreateScene : MonoBehaviour
                     if(bombToPlace.Value == 0)
                     {
                         var data = "";
-                        foreach(var i in bombMap.Keys)
+                        foreach(var i in bombMap)
                         {
-                            data += string.Format("{0}:{1},", i.Item1, i.Item2);
+                            data += string.Format("{0}:{1}:{2},", i.Key.Item1, i.Key.Item2, i.Value);
                         }
 
                         // save to cloud
@@ -103,7 +103,7 @@ public class CreateScene : MonoBehaviour
                 if (bombMap.ContainsKey(key))
                     continue;
 
-                bombMap[key] = true;
+                bombMap[key] = Random.Range(0, 3);
                 break;
             }
         }
@@ -139,15 +139,18 @@ public class CreateScene : MonoBehaviour
                         {
                             Debug.Log("pressed" + res);
                             var key = Tuple.Create(cx, cy);
-                            if(bombMap.ContainsKey(key))
+                            if (bombMap.ContainsKey(key))
                             {
-                                // remove
-                                bombMap.Remove(key);
-                                bombToPlace.Value++;
+                                if (++bombMap[key] >= 3)
+                                {
+                                    // remove
+                                    bombMap.Remove(key);
+                                    bombToPlace.Value++;
+                                }
                             }
                             else if(bombToPlace.Value > 0)
                             {
-                                bombMap[key] = true;
+                                bombMap[key] = 0;
                                 bombToPlace.Value--;
                             }
                             else
@@ -168,12 +171,13 @@ public class CreateScene : MonoBehaviour
             i.Reset();
         }
 
-        var items = bombMap.Keys;
+        var items = bombMap;
         foreach (var item in items)
         {
-            var x = item.Item1;
-            var y = item.Item2;
-            fieldList[x, y].Setup(true);
+            var x = item.Key.Item1;
+            var y = item.Key.Item2;
+            var type = item.Value;
+            fieldList[x, y].Setup(true, type);
 
             for (int i = 0; i < 8; ++i)
             {

@@ -1,11 +1,11 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembly-CSharp-firstpass.csproj", "{A9B8741A-0D58-1445-E28F-9CE6179CB919}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minesweeper_demo.Plugins", "minesweeper_demo.Plugins.csproj", "{A70BFD02-6C00-C4C7-3715-1B98B40F5403}"
 EndProject
-Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembly-CSharp.csproj", "{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minesweeper_demo", "minesweeper_demo.csproj", "{0E297B00-D60F-777B-B068-4A0D3CBACFD8}"
 EndProject
-Project("{C341E074-2672-046F-59B1-CBCB76CB5294}") = "minesweeper_demo", "Assembly-UnityScript.unityproj", "{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minesweeper_demo.Editor", "minesweeper_demo.Editor.csproj", "{999DA65E-9040-3975-79C3-6111E37FA332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,61 +13,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9B8741A-0D58-1445-E28F-9CE6179CB919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9B8741A-0D58-1445-E28F-9CE6179CB919}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9B8741A-0D58-1445-E28F-9CE6179CB919}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9B8741A-0D58-1445-E28F-9CE6179CB919}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A301C60-F4F2-5868-FE25-AEAB860D6BFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C06A9C0A-FA28-EE66-E427-B14AEA7ABD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A70BFD02-6C00-C4C7-3715-1B98B40F5403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A70BFD02-6C00-C4C7-3715-1B98B40F5403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A70BFD02-6C00-C4C7-3715-1B98B40F5403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A70BFD02-6C00-C4C7-3715-1B98B40F5403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E297B00-D60F-777B-B068-4A0D3CBACFD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E297B00-D60F-777B-B068-4A0D3CBACFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E297B00-D60F-777B-B068-4A0D3CBACFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E297B00-D60F-777B-B068-4A0D3CBACFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999DA65E-9040-3975-79C3-6111E37FA332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999DA65E-9040-3975-79C3-6111E37FA332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999DA65E-9040-3975-79C3-6111E37FA332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999DA65E-9040-3975-79C3-6111E37FA332}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		Policies = $0
-		$0.DotNetNamingPolicy = $1
-		$1.DirectoryNamespaceAssociation = None
-		$1.ResourceNamePolicy = FileFormatDefault
-		$0.TextStylePolicy = $2
-		$2.inheritsSet = VisualStudio
-		$2.inheritsScope = text/plain
-		$2.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $3
-		$3.IndentSwitchBody = True
-		$3.IndentBlocksInsideExpressions = True
-		$3.AnonymousMethodBraceStyle = NextLine
-		$3.PropertyBraceStyle = NextLine
-		$3.PropertyGetBraceStyle = NextLine
-		$3.PropertySetBraceStyle = NextLine
-		$3.EventBraceStyle = NextLine
-		$3.EventAddBraceStyle = NextLine
-		$3.EventRemoveBraceStyle = NextLine
-		$3.StatementBraceStyle = NextLine
-		$3.ElseNewLinePlacement = NewLine
-		$3.CatchNewLinePlacement = NewLine
-		$3.FinallyNewLinePlacement = NewLine
-		$3.WhileNewLinePlacement = DoNotCare
-		$3.ArrayInitializerWrapping = DoNotChange
-		$3.ArrayInitializerBraceStyle = NextLine
-		$3.BeforeMethodDeclarationParentheses = False
-		$3.BeforeMethodCallParentheses = False
-		$3.BeforeConstructorDeclarationParentheses = False
-		$3.NewLineBeforeConstructorInitializerColon = NewLine
-		$3.NewLineAfterConstructorInitializerColon = SameLine
-		$3.BeforeDelegateDeclarationParentheses = False
-		$3.NewParentheses = False
-		$3.SpacesBeforeBrackets = False
-		$3.inheritsSet = Mono
-		$3.inheritsScope = text/x-csharp
-		$3.scope = text/x-csharp
-		$0.StandardHeader = $4
-		$4.Text = 
-		$4.IncludeInNewFiles = True
 	EndGlobalSection
 EndGlobal

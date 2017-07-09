@@ -52,13 +52,14 @@ public class CoverObject : MonoBehaviour
             }).AddTo(this);
     }
 
-    public void SetExplosion(GameObject explodePrefab)
+    public void SetExplosion(GameObject explodePrefab, float timer = 2.0f)
     {
         var part = Instantiate(explodePrefab) as GameObject;
         part.RectTrans().SetParent(background.transform);
-        part.RectTrans().anchoredPosition = Vector2.zero;
+        part.transform.localPosition = Vector3.zero;
+        part.transform.localScale = new Vector3(1, 1, 1);
 
-        Observable.Timer(System.TimeSpan.FromSeconds(2.0f))
+        Observable.Timer(System.TimeSpan.FromSeconds(timer))
             .Subscribe(_ =>
             {
                     DestroyObject(part);

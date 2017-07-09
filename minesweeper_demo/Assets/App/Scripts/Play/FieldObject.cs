@@ -12,12 +12,23 @@ public class FieldObject : MonoBehaviour
     private Image background;
     [SerializeField]
     private Text countText;
+    [SerializeField]
+    private GameObject[] bombImages;
+    private int currentBombType = -1;
 
-    public Tuple<bool, int> Data
+    public int CurrentBombType
     {
         get
         {
-            return Tuple.Create(isBomb, count);
+            return currentBombType;
+        }
+    }
+
+    public Tuple<bool, int, int> Data
+    {
+        get
+        {
+            return Tuple.Create(isBomb, count, currentBombType);
         }
     }
 
@@ -33,6 +44,12 @@ public class FieldObject : MonoBehaviour
         this.isBomb = false;
         background.color = Color.white;
         countText.gameObject.SetActive(false);
+
+        if (currentBombType >= 0)
+        {
+            bombImages[currentBombType].SetActive(false);
+        }
+        currentBombType = -1;
     }
 
     public void AddCount()
@@ -49,10 +66,21 @@ public class FieldObject : MonoBehaviour
         }
     }
 
-    public void Setup(bool isBomb)
+    public void Setup(bool isBomb, int bombType = 0)
     {
         this.isBomb = isBomb;
         background.color = Color.red;
         countText.gameObject.SetActive(false);
+
+        if (isBomb)
+        {
+            if (currentBombType >= 0)
+            {
+                bombImages[currentBombType].SetActive(false);
+            }
+
+            currentBombType = bombType;
+            bombImages[currentBombType].SetActive(true);
+        }
     }
 }

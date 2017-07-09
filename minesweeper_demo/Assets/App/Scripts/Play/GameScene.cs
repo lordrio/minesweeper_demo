@@ -14,7 +14,7 @@ public class GameScene : MonoBehaviour
     public static Data.MineData data;
 
     // 9 x 9
-    private Dictionary<Tuple<int,int>, bool> bombMap = new Dictionary<Tuple<int, int>, bool>(10);
+    private Dictionary<Tuple<int,int>, int> bombMap = new Dictionary<Tuple<int, int>, int>(10);
 
     [SerializeField]
     private Transform coverBase;
@@ -28,10 +28,19 @@ public class GameScene : MonoBehaviour
     private GameObject openParticlePrefab;
     [SerializeField]
     private GameObject bombParticlePrefab;
+    [SerializeField]
+    private GameObject plasmaParticlePrefab;
+    [SerializeField]
+    private GameObject largeExploParticlePrefab;
 
-	/// <summary>
-	///  Game Data
-	/// </summary>
+    [SerializeField]
+    private Image flashBangImg;
+    [SerializeField]
+    private Image freezeBangImage;
+
+    /// <summary>
+    ///  Game Data
+    /// </summary>
     [SerializeField]
     private int flagCount = 10;
     [SerializeField]
@@ -97,12 +106,13 @@ public class GameScene : MonoBehaviour
                 continue;
             
             var s = i.Split(new char[] { ':' });
+            var val = int.Parse(s[2]);
             var key = Tuple.Create(int.Parse(s[0]), int.Parse(s[1]));
 
             if (bombMap.ContainsKey(key))
                 continue;
 
-            bombMap[key] = true;
+            bombMap[key] = val;
         }
 
         // done setup
@@ -132,12 +142,12 @@ public class GameScene : MonoBehaviour
 
 
 
-        var items = bombMap.Keys;
+        var items = bombMap;
         foreach (var item in items)
         {
-            var x = item.Item1;
-            var y = item.Item2;
-            fieldList[x, y].Setup(true);
+            var x = item.Key.Item1;
+            var y = item.Key.Item2;
+            fieldList[x, y].Setup(true, item.Value);
 
             for (int i = 0; i < 8; ++i)
             {
@@ -254,11 +264,67 @@ public class GameScene : MonoBehaviour
                 // bomb
                 --playerObject.currentHealth;
                 UpdateHP();
-                c.SetExplosion(bombParticlePrefab);
+                var type = val.Item3;
+
+                if(type == 0)
+                    c.SetExplosion(bombParticlePrefab);
+                else if(type == 1)
+                    c.SetExplosion(plasmaParticlePrefab, 1.8f);
+                else if(type == 2)
+                    c.SetExplosion(largeExploParticlePrefab);
 
                 if (playerObject.currentHealth <= 0)
                 {
                     GameOver();
+                }
+                else
+                {
+                    switch (type)
+                    {
+                        case 1:
+                            // plasma is freeze
+                            var col = freezeBangImage.color;
+                            col.a = 0;
+                            freezeBangImage.color = col;
+                            freezeBangImage.gameObject.SetActive(true);
+
+                            var seq = DOTween.Sequence();
+                            seq.AppendInterval(0.3f);
+                            col.a = 0.5f;
+                            seq.Append(freezeBangImage.DOColor(col, 0.5f));
+                            col.a = 0.8f;
+                            seq.Append(freezeBangImage.DOColor(col, 2.0f).SetLoops(6, LoopType.Yoyo));
+                            col.a = 0.0f;
+                            seq.Append(freezeBangImage.DOColor(col, 0.5f));
+                            seq.AppendCallback(() =>
+                            {
+                                freezeBangImage.gameObject.SetActive(false);
+                            });
+
+                            break;
+
+                        case 2:
+                            // flashbang
+                            col = flashBangImg.color;
+                            col.a = 0;
+                            flashBangImg.color = col;
+                            flashBangImg.gameObject.SetActive(true);
+
+                            seq = DOTween.Sequence();
+                            seq.AppendInterval(0.3f);
+                            col.a = 0.9f;
+                            seq.Append(flashBangImg.DOColor(col, 0.3f));
+                            col.a = 1.0f;
+                            seq.Append(flashBangImg.DOColor(col, 2.0f).SetLoops(6, LoopType.Yoyo));
+                            col.a = 0.0f;
+                            seq.Append(flashBangImg.DOColor(col, 0.5f));
+                            seq.AppendCallback(() =>
+                            {
+                                flashBangImg.gameObject.SetActive(false);
+                            });
+
+                            break;
+                    }
                 }
             }
         }

@@ -17,6 +17,8 @@ public class MenuController : MonoBehaviour
 
     public void Start()
     {
+        Screen.SetResolution(480, 768, false);
+
         playMinefieldButton.interactable = false;
         toggle.ObserveEveryValueChanged(t => t.AnyTogglesOn())
             .DistinctUntilChanged()
